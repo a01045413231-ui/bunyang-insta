@@ -4,7 +4,7 @@
 
 1. `data/날짜_단지명_타입.json` 파일을 만든다 (형식은 `data/` 안의 기존 파일 참고).
    - 전화번호(010-4541-3231)와 상호(필수부동산)는 `card/render.js` 에 고정돼 있으니 넣지 않는다.
-2. `node card/render.js data/파일.json` 을 실행하면 `output/` 에 1080x1350 PNG 가 생긴다.
-3. 이미지를 직접 확인한 뒤 사용자에게 보내고, 커밋·푸시한다.
+2. `node card/render.js data/파일.json` 을 실행하면 `output/` 에 1080x1350 PNG 와 인스타 설명란 문구(.txt)가 생긴다.
+3. 이미지를 직접 확인한 뒤 사용자에게 보내고, 설명란 문구는 답변에 코드블록으로 그대로 붙여 복사하기 쉽게 한다. 그다음 커밋·푸시한다.
 
 디자인은 `card/template.html`, 참고 원본은 `reference/card-sample-forena-59A.png`.
