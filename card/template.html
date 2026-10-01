@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: P; font-weight: 500; src: url(fonts/Pretendard-Medium.woff2); }
+  @font-face { font-family: P; font-weight: 700; src: url(fonts/Pretendard-Bold.woff2); }
+  @font-face { font-family: P; font-weight: 800; src: url(fonts/Pretendard-ExtraBold.woff2); }
+  @font-face { font-family: P; font-weight: 900; src: url(fonts/Pretendard-Black.woff2); }
+  :root { --bg: #f5f4f0; --ink: #1a1a1a; --red: #d9262c; --gray: #6b6b6b; --line: #eeeeec; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1350px; }
+  body { background: var(--bg); color: var(--ink); font-family: P, sans-serif;
+         padding: 88px 68px 0; display: flex; flex-direction: column; }
+  .bar { width: 72px; height: 8px; background: var(--red); }
+  .label { margin-top: 26px; font-size: 34px; font-weight: 700; letter-spacing: -0.5px; }
+  .title { margin-top: 46px; font-size: 92px; font-weight: 900; line-height: 1.15; letter-spacing: -3px; }
+  .title .red { color: var(--red); }
+  .box { margin-top: 54px; background: #fff; border-radius: 28px; padding: 0 40px;
+         flex: 1; max-height: 660px; display: flex; flex-direction: column; }
+  .row { flex: 1; display: flex; align-items: center; justify-content: space-between;
+         border-bottom: 2px solid var(--line); }
+  .row:last-child { border-bottom: none; }
+  .dong { font-size: 48px; font-weight: 800; letter-spacing: -1px; }
+  .floor { font-size: 36px; font-weight: 500; color: var(--gray); margin-left: 16px; }
+  .price { font-size: 56px; font-weight: 800; color: var(--red); letter-spacing: -1px; }
+  .foot { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 50px; }
+  .phone { font-size: 66px; font-weight: 900; letter-spacing: -1px; line-height: 1; }
+  .agency { font-size: 30px; font-weight: 800; color: #555; padding-bottom: 6px; }
+  .note { margin-top: 30px; font-size: 27px; font-weight: 500; color: var(--gray); }
+</style>
+</head>
+<body>
+  <div class="bar"></div>
+  <div class="label" id="label"></div>
+  <div class="title"><span id="complex"></span><br><span class="red" id="type"></span> 매물</div>
+  <div class="box" id="box"></div>
+  <div class="foot"><div class="phone" id="phone"></div><div class="agency" id="agency"></div></div>
+  <div class="note" id="note"></div>
+<script>
+  // render.js 가 window.CARD 에 데이터를 넣고 render() 를 호출한다
+  function esc(s) { const d = document.createElement('div'); d.textContent = s ?? ''; return d.innerHTML; }
+  function render(c) {
+    document.getElementById('label').textContent = `[ ${c.label || '실시간 매물'} ]`;
+    document.getElementById('complex').textContent = c.complex;
+    document.getElementById('type').textContent = c.type;
+    document.getElementById('phone').textContent = c.phone;
+    document.getElementById('agency').textContent = c.agency;
+    document.getElementById('note').textContent = `${c.date} 기준 · 실시간 거래중 · 시세 변동 가능`;
+    document.getElementById('box').innerHTML = c.listings.map(l =>
+      `<div class="row"><div><span class="dong">${esc(l.dong)}</span><span class="floor">${esc(l.floor)}</span></div>` +
+      `<div class="price">${esc(l.price)}</div></div>`).join('');
+    // 단지명이 길면 한 줄에 들어가도록 글자 크기를 줄인다
+    const t = document.querySelector('.title'), el = document.getElementById('complex');
+    let size = 92;
+    t.style.whiteSpace = 'nowrap';
+    while (el.offsetWidth > 944 && size > 56) { size -= 2; t.style.fontSize = size + 'px'; }
+  }
+</script>
+</body>
+</html>
