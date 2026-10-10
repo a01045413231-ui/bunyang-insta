@@ -24,6 +24,10 @@
   .dong { font-size: 58px; font-weight: 800; letter-spacing: -1px; }
   .floor { font-size: 42px; font-weight: 500; color: var(--gray); margin-left: 18px; }
   .price { font-size: 68px; font-weight: 800; color: var(--red); letter-spacing: -1px; }
+  .box.dense { padding-top: 10px; padding-bottom: 10px; }
+  .box.dense .dong { font-size: 50px; }
+  .box.dense .floor { font-size: 36px; }
+  .box.dense .price { font-size: 58px; }
   .foot { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 50px; }
   .phone { font-size: 66px; font-weight: 900; letter-spacing: -1px; line-height: 1; }
   .agency { font-size: 30px; font-weight: 800; color: #555; padding-bottom: 6px; }
@@ -50,6 +54,8 @@
     document.getElementById('box').innerHTML = c.listings.map(l =>
       `<div class="row"><div><span class="dong">${esc(l.dong)}</span><span class="floor">${esc(l.floor)}</span></div>` +
       `<div class="price">${esc(l.price)}</div></div>`).join('');
+    // 매물이 많으면 줄 간격이 좁아지므로 글자를 줄인다
+    document.getElementById('box').classList.toggle('dense', c.listings.length >= 7);
     // 단지명이 길면 한 줄에 들어가도록 글자 크기를 줄인다
     const t = document.querySelector('.title'), el = document.getElementById('complex');
     let size = 92;
