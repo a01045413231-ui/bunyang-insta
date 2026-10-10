@@ -1,0 +1,13 @@
+{
+  "complex": "레이크써밋웰가",
+  "type": "84B타입",
+  "date": "2026.10.10",
+  "listings": [
+    { "dong": "101동", "floor": "저층", "price": "P 1,800" },
+    { "dong": "101동", "floor": "중층", "price": "P 2,100" },
+    { "dong": "102동", "floor": "10층 초반", "price": "P 3,700" },
+    { "dong": "102동", "floor": "중층", "price": "P 4,300" },
+    { "dong": "103동", "floor": "중층", "price": "P 4,200" },
+    { "dong": "104동", "floor": "고층", "price": "P 3,800" }
+  ]
+}
