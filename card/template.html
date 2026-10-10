@@ -28,6 +28,13 @@
   .box.dense .dong { font-size: 50px; }
   .box.dense .floor { font-size: 36px; }
   .box.dense .price { font-size: 58px; }
+  .box.single { justify-content: center; align-items: center; text-align: center; padding: 0 56px; }
+  .single .s-dong { font-size: 104px; font-weight: 900; letter-spacing: -3px; line-height: 1.1; }
+  .single .s-floor { font-size: 64px; font-weight: 700; color: var(--gray); margin-left: 20px; letter-spacing: -1px; }
+  .single .s-memo { margin-top: 30px; display: inline-block; background: var(--red); color: #fff;
+                    font-size: 44px; font-weight: 800; padding: 14px 34px; border-radius: 999px; letter-spacing: -1px; }
+  .single .s-line { width: 120px; height: 4px; background: var(--line); margin: 52px auto 40px; }
+  .single .s-price { font-size: 150px; font-weight: 900; color: var(--red); letter-spacing: -4px; line-height: 1; }
   .foot { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 50px; }
   .phone { font-size: 66px; font-weight: 900; letter-spacing: -1px; line-height: 1; }
   .agency { font-size: 30px; font-weight: 800; color: #555; padding-bottom: 6px; }
@@ -51,9 +58,19 @@
     document.getElementById('phone').textContent = c.phone;
     document.getElementById('agency').textContent = c.agency;
     document.getElementById('note').textContent = `${c.date} 기준 · 실시간 거래중 · 시세 변동 가능`;
-    document.getElementById('box').innerHTML = c.listings.map(l =>
-      `<div class="row"><div><span class="dong">${esc(l.dong)}</span><span class="floor">${esc(l.floor)}</span></div>` +
-      `<div class="price">${esc(l.price)}</div></div>`).join('');
+    const box = document.getElementById('box');
+    if (c.listings.length === 1) {
+      // 매물이 하나면 크게 강조한다 (memo 는 빨간 뱃지로)
+      const l = c.listings[0];
+      box.classList.add('single');
+      box.innerHTML = `<div><div><span class="s-dong">${esc(l.dong)}</span><span class="s-floor">${esc(l.floor)}</span></div>` +
+        (l.memo ? `<div class="s-memo">${esc(l.memo)}</div>` : '') +
+        `<div class="s-line"></div><div class="s-price">${esc(l.price)}</div></div>`;
+    } else {
+      box.innerHTML = c.listings.map(l =>
+        `<div class="row"><div><span class="dong">${esc(l.dong)}</span><span class="floor">${esc([l.floor, l.memo].filter(Boolean).join(' '))}</span></div>` +
+        `<div class="price">${esc(l.price)}</div></div>`).join('');
+    }
     // 매물이 많으면 줄 간격이 좁아지므로 글자를 줄인다
     document.getElementById('box').classList.toggle('dense', c.listings.length >= 7);
     // 단지명이 길면 한 줄에 들어가도록 글자 크기를 줄인다
