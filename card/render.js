@@ -17,7 +17,9 @@ function caption(d) {
   return [
     `🏢 ${d.complex} ${d.type} 실시간 매물`,
     '',
-    ...d.listings.map(l => `✔️ ${l.dong} ${l.floor} | ${l.price}`),
+    ...d.listings.map(l => `✔️ ${[l.dong, l.floor, l.memo].filter(Boolean).join(' ')} | ${l.price}`),
+    // 선택: 매물 소개 한마디
+    ...(d.comment ? ['', `✨ ${d.comment}`] : []),
     '',
     `📅 ${d.date} 기준 · 실시간 거래중 · 시세 변동 가능`,
     '',
