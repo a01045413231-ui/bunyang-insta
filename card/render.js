@@ -12,12 +12,17 @@ function loadPlaywright() {
 const FIXED = { phone: '010-4541-3231', agency: '필수부동산' };
 
 // 인스타 설명란(캡션) 문구
+const line = l => `✔️ ${[l.dong, l.floor, l.memo].filter(Boolean).join(' ')} | ${l.price}`;
+
 function caption(d) {
   const tag = d.complex.replace(/\s+/g, '');
+  if (d.groups) return captionGroups(d, tag);
   return [
     `🏢 ${d.complex} ${d.type} 실시간 매물`,
     '',
-    ...d.listings.map(l => `✔️ ${l.dong} ${l.floor} | ${l.price}`),
+    ...d.listings.map(line),
+    // 선택: 매물 소개 한마디
+    ...(d.comment ? ['', `✨ ${d.comment}`] : []),
     '',
     `📅 ${d.date} 기준 · 실시간 거래중 · 시세 변동 가능`,
     '',
@@ -26,6 +31,24 @@ function caption(d) {
     d.phone,
     '',
     `#${tag} #${tag}${d.type.replace(/타입$/, '')} #${tag}매물 #${d.agency} #실시간매물`,
+  ].join('\n');
+}
+
+// 여러 타입을 한 장에 담은 카드의 설명란 문구
+function captionGroups(d, tag) {
+  return [
+    `🏢 ${d.complex} 실시간 매물`,
+    ...d.groups.flatMap(g => ['', `📌 ${g.type}`, ...g.listings.map(line)]),
+    ...(d.comment ? ['', `✨ ${d.comment}`] : []),
+    '',
+    `📅 ${d.date} 기준 · 실시간 거래중 · 시세 변동 가능`,
+    '',
+    '📞 매물 문의 요망 · 편하게 연락주세요!',
+    d.agency,
+    d.phone,
+    '',
+    `#${tag} ` + d.groups.map(g => `#${tag}${g.type.replace(/타입$/, '')}`).join(' ') +
+      ` #${tag}매물 #${d.agency} #실시간매물`,
   ].join('\n');
 }
 

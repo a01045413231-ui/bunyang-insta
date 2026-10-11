@@ -1,0 +1,32 @@
+{
+  "complex": "레이크써밋웰가",
+  "type": "타입별",
+  "date": "2026.10.11",
+  "groups": [
+    { "type": "78타입", "listings": [
+      { "dong": "101동", "floor": "저층 4호", "price": "P 1,200" },
+      { "dong": "103동", "floor": "저층 1호", "price": "P 1,800" }
+    ] },
+    { "type": "84A타입", "listings": [
+      { "dong": "101동", "floor": "고층 1호", "price": "P 4,700" },
+      { "dong": "102동", "floor": "중층 5호", "price": "P 5,300" },
+      { "dong": "103동", "floor": "저층 5호", "price": "P 4,000" },
+      { "dong": "103동", "floor": "20층 전후 5호", "price": "P 5,900" },
+      { "dong": "103동", "floor": "저층 6호", "price": "P 2,700" },
+      { "dong": "105동", "floor": "저층 1호", "price": "P 3,700" },
+      { "dong": "106동", "floor": "고층 1호", "price": "P 5,000" }
+    ] },
+    { "type": "84B타입", "listings": [
+      { "dong": "101동", "floor": "필로티", "price": "P 1,800" },
+      { "dong": "101동", "floor": "저층 2호", "price": "P 1,800" },
+      { "dong": "102동", "floor": "중층 2호", "price": "P 3,700" },
+      { "dong": "104동", "floor": "중층 3호", "price": "P 3,200" },
+      { "dong": "105동", "floor": "중층 3호", "price": "P 4,000" },
+      { "dong": "106동", "floor": "저층 2호", "price": "P 1,500" },
+      { "dong": "106동", "floor": "중층 2호", "price": "P 4,200" }
+    ] },
+    { "type": "119타입", "listings": [
+      { "dong": "106동", "floor": "저층 4호", "price": "P 4,700" }
+    ] }
+  ]
+}
