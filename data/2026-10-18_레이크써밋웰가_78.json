@@ -3,9 +3,9 @@
   "type": "78타입",
   "date": "2026.10.18",
   "listings": [
-    { "dong": "101동", "floor": "18층", "price": "P 3,700" },
-    { "dong": "103동", "floor": "2층", "price": "P 800" },
-    { "dong": "105동", "floor": "4층", "price": "P 600" },
-    { "dong": "105동", "floor": "9층", "price": "P 1,900" }
+    { "dong": "101동", "floor": "중층 4호라인", "price": "P 3,700" },
+    { "dong": "103동", "floor": "저층 1호라인", "price": "P 800" },
+    { "dong": "105동", "floor": "저층 4호라인", "price": "P 600" },
+    { "dong": "105동", "floor": "중층 4호라인", "price": "P 2,500" }
   ]
 }
