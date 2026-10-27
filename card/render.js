@@ -12,7 +12,7 @@ function loadPlaywright() {
 const FIXED = { phone: '010-4541-3231', agency: '필수부동산' };
 
 // 인스타 설명란(캡션) 문구
-const line = l => `✔️ ${[l.dong, l.floor, l.memo].filter(Boolean).join(' ')} | ${l.price}`;
+const line = l => `✔️ ${[l.dong, l.floor, l.memo].filter(Boolean).join(' ')}${l.badge ? ` [${l.badge}]` : ''} | ${l.price}`;
 
 function caption(d) {
   const tag = d.complex.replace(/\s+/g, '');

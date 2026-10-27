@@ -24,17 +24,18 @@
   .dong { font-size: 58px; font-weight: 800; letter-spacing: -1px; }
   .floor { font-size: 42px; font-weight: 500; color: var(--gray); margin-left: 18px; }
   .price { font-size: 68px; font-weight: 800; color: var(--red); letter-spacing: -1px; }
+  .badge { display: inline-block; margin-left: 16px; padding: 6px 16px 8px; border-radius: 12px;
+           background: var(--red); color: #fff; font-size: 34px; font-weight: 800; vertical-align: 6px; }
+  /* 매물이 1개일 때: 가운데 정렬로 크게 */
+  .box.single .row { flex-direction: column; justify-content: center; gap: 36px; }
+  .box.single .dong { font-size: 76px; }
+  .box.single .floor { font-size: 54px; }
+  .box.single .badge { font-size: 44px; padding: 8px 22px 10px; }
+  .box.single .price { font-size: 132px; font-weight: 900; letter-spacing: -3px; }
   .box.dense { padding-top: 10px; padding-bottom: 10px; }
   .box.dense .dong { font-size: 50px; }
   .box.dense .floor { font-size: 36px; }
   .box.dense .price { font-size: 58px; }
-  .box.single { justify-content: center; align-items: center; text-align: center; padding: 0 56px; }
-  .single .s-dong { font-size: 104px; font-weight: 900; letter-spacing: -3px; line-height: 1.1; }
-  .single .s-floor { font-size: 64px; font-weight: 700; color: var(--gray); margin-left: 20px; letter-spacing: -1px; }
-  .single .s-memo { margin-top: 30px; display: inline-block; background: var(--red); color: #fff;
-                    font-size: 44px; font-weight: 800; padding: 14px 34px; border-radius: 999px; letter-spacing: -1px; }
-  .single .s-line { width: 120px; height: 4px; background: var(--line); margin: 52px auto 40px; }
-  .single .s-price { font-size: 150px; font-weight: 900; color: var(--red); letter-spacing: -4px; line-height: 1; }
   /* 여러 타입을 한 장에 (groups) */
   body.multi { padding-top: 64px; }
   .multi .label { margin-top: 22px; }
@@ -54,6 +55,7 @@
   .g-row .dong { font-size: 34px; }
   .g-row .floor { font-size: 24px; margin-left: 10px; }
   .g-row .price { font-size: 38px; }
+  .g-row .badge { font-size: 22px; padding: 3px 10px 5px; margin-left: 8px; border-radius: 8px; vertical-align: 3px; }
   .foot { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 50px; }
   .phone { font-size: 66px; font-weight: 900; letter-spacing: -1px; line-height: 1; }
   .agency { font-size: 30px; font-weight: 800; color: #555; padding-bottom: 6px; }
@@ -78,6 +80,8 @@
     document.getElementById('agency').textContent = c.agency;
     document.getElementById('note').textContent = `${c.date} 기준 · 실시간 거래중 · 시세 변동 가능`;
     const box = document.getElementById('box');
+    const floor = l => esc([l.floor, l.memo].filter(Boolean).join(' '));
+    const badge = l => l.badge ? `<span class="badge">${esc(l.badge)}</span>` : '';
     if (c.groups) {
       // 여러 타입을 한 장에: 줄 수가 비슷해지도록 두 칸으로 나눈다
       document.body.classList.add('multi');
@@ -90,25 +94,19 @@
         `<div class="g-head"><span class="g-type">${esc(g.type)}</span><span class="g-count">${g.listings.length}건</span></div>` +
         g.listings.map((l, i) =>
           `<div class="g-row${i === g.listings.length - 1 ? ' last' : ''}"><div><span class="dong">${esc(l.dong)}</span>` +
-          `<span class="floor">${esc([l.floor, l.memo].filter(Boolean).join(' '))}</span></div>` +
+          `<span class="floor">${floor(l)}</span>${badge(l)}</div>` +
           `<div class="price">${esc(l.price)}</div></div>`).join('')).join('') + `</div>`).join('');
       const maxLines = Math.max(...cols.map(gs => gs.reduce((n, g) => n + lines(g), 0)));
       const inner = box.clientHeight - 52;
       box.style.setProperty('--lh', Math.min(84, Math.floor(inner / maxLines)) + 'px');
-    } else if (c.listings.length === 1) {
-      // 매물이 하나면 크게 강조한다 (memo 는 빨간 뱃지로)
-      const l = c.listings[0];
-      box.classList.add('single');
-      box.innerHTML = `<div><div><span class="s-dong">${esc(l.dong)}</span><span class="s-floor">${esc(l.floor)}</span></div>` +
-        (l.memo ? `<div class="s-memo">${esc(l.memo)}</div>` : '') +
-        `<div class="s-line"></div><div class="s-price">${esc(l.price)}</div></div>`;
     } else {
       box.innerHTML = c.listings.map(l =>
-        `<div class="row"><div><span class="dong">${esc(l.dong)}</span><span class="floor">${esc([l.floor, l.memo].filter(Boolean).join(' '))}</span></div>` +
+        `<div class="row"><div><span class="dong">${esc(l.dong)}</span><span class="floor">${floor(l)}</span>${badge(l)}</div>` +
         `<div class="price">${esc(l.price)}</div></div>`).join('');
+      box.classList.toggle('single', c.listings.length === 1);
+      // 매물이 많으면 줄 간격이 좁아지므로 글자를 줄인다
+      box.classList.toggle('dense', c.listings.length >= 7);
     }
-    // 매물이 많으면 줄 간격이 좁아지므로 글자를 줄인다
-    document.getElementById('box').classList.toggle('dense', !c.groups && c.listings.length >= 7);
     // 단지명이 길면 한 줄에 들어가도록 글자 크기를 줄인다
     const t = document.querySelector('.title'), el = document.getElementById('complex');
     let size = 92;
