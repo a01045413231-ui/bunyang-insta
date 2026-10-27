@@ -27,11 +27,14 @@
   .badge { display: inline-block; margin-left: 16px; padding: 6px 16px 8px; border-radius: 12px;
            background: var(--red); color: #fff; font-size: 34px; font-weight: 800; vertical-align: 6px; }
   /* 매물이 1개일 때: 가운데 정렬로 크게 */
-  .box.single .row { flex-direction: column; justify-content: center; gap: 36px; }
-  .box.single .dong { font-size: 76px; }
-  .box.single .floor { font-size: 54px; }
-  .box.single .badge { font-size: 44px; padding: 8px 22px 10px; }
-  .box.single .price { font-size: 132px; font-weight: 900; letter-spacing: -3px; }
+  /* --k: 글자 배율. 동·층이 한 줄에 안 들어가면 render() 에서 줄인다 */
+  .box.single { --k: 1; --kp: 1; }
+  .box.single .row { flex-direction: column; justify-content: center; gap: calc(44px * var(--k)); }
+  .box.single .row > div:first-child { white-space: nowrap; }
+  .box.single .dong { font-size: calc(118px * var(--k)); font-weight: 900; letter-spacing: -3px; }
+  .box.single .floor { font-size: calc(84px * var(--k)); font-weight: 700; margin-left: calc(24px * var(--k)); letter-spacing: -2px; }
+  .box.single .badge { font-size: calc(56px * var(--k)); padding: 10px 26px 12px; vertical-align: 12px; }
+  .box.single .price { font-size: calc(210px * var(--kp)); font-weight: 900; letter-spacing: -6px; line-height: 1; white-space: nowrap; }
   .box.dense { padding-top: 10px; padding-bottom: 10px; }
   .box.dense .dong { font-size: 50px; }
   .box.dense .floor { font-size: 36px; }
@@ -104,6 +107,12 @@
         `<div class="row"><div><span class="dong">${esc(l.dong)}</span><span class="floor">${floor(l)}</span>${badge(l)}</div>` +
         `<div class="price">${esc(l.price)}</div></div>`).join('');
       box.classList.toggle('single', c.listings.length === 1);
+      if (c.listings.length === 1) {
+        const head = box.querySelector('.row > div'), max = box.clientWidth - 80;
+        for (let k = 1; head.scrollWidth > max && k > 0.5; k -= 0.02) box.style.setProperty('--k', k.toFixed(2));
+        const price = box.querySelector('.price');
+        for (let k = 1; price.scrollWidth > max && k > 0.5; k -= 0.02) box.style.setProperty('--kp', k.toFixed(2));
+      }
       // 매물이 많으면 줄 간격이 좁아지므로 글자를 줄인다
       box.classList.toggle('dense', c.listings.length >= 7);
     }
