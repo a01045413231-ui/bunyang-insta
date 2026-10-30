@@ -58,6 +58,8 @@
   .g-row .dong { font-size: 34px; }
   .g-row .floor { font-size: 24px; margin-left: 10px; }
   .g-row .price { font-size: 38px; }
+  /* 🔥 처럼 이모지만 있는 딱지는 빨간 바탕 없이 */
+  .badge.emoji { background: none; padding-left: 0; padding-right: 0; margin-left: 12px; font-size: 46px; vertical-align: 2px; }
   .g-row .badge { font-size: 22px; padding: 3px 10px 5px; margin-left: 8px; border-radius: 8px; vertical-align: 3px; }
   .foot { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 50px; }
   .phone { font-size: 66px; font-weight: 900; letter-spacing: -1px; line-height: 1; }
@@ -84,7 +86,8 @@
     document.getElementById('note').textContent = `${c.date} 기준 · 실시간 거래중 · 시세 변동 가능`;
     const box = document.getElementById('box');
     const floor = l => esc([l.floor, l.memo].filter(Boolean).join(' '));
-    const badge = l => l.badge ? `<span class="badge">${esc(l.badge)}</span>` : '';
+    const isEmoji = t => /^[\p{Extended_Pictographic}\uFE0F\u200D\s]+$/u.test(t);
+    const badge = l => l.badge ? `<span class="badge${isEmoji(l.badge) ? ' emoji' : ''}">${esc(l.badge)}</span>` : '';
     if (c.groups) {
       // 여러 타입을 한 장에: 줄 수가 비슷해지도록 두 칸으로 나눈다
       document.body.classList.add('multi');
